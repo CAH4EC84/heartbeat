@@ -1,0 +1,33 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <appender name="DebugFile" class="ch.qos.logback.core.FileAppender">
+        <file>C:\Program Files\Apache Software Foundation\Tomcat 9.0\logs\heartbeat\debug.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="InfoFile" class="ch.qos.logback.core.FileAppender">
+        <file>C:\Program Files\Apache Software Foundation\Tomcat 9.0\logs\heartbeat\Info.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="golikov.alexander.backend.chekers" level="debug">
+        <appender-ref ref="DebugFile" />
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="InfoFile" />
+    </root>
+
+
+</configuration>
