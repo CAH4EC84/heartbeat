@@ -16,16 +16,16 @@ import java.time.ZoneId;
 public class TrackingComponent {
     private final Logger logger = LoggerFactory.getLogger(TrackingComponent.class);
 
-    Session session;
-    TrackApps app;
-    ErrorLevels errorLevel;
+    private Session session;
+    private TrackApps app;
+    private ErrorLevels errorLevel;
 
     public TrackingComponent(Session session, TrackApps app) {
         this.session = session;
         this.app = app;
     }
 
-    public void check() {
+    private void check() {
         Boolean isAlive;
         //Время проверки =  последняя УСПЕШНАЯ проверка + интервал заданный для отслеживаемого компонента умноженное на порядок ошибки
         errorLevel = ErrorLevels.valueOf(app.getErrorLevel());
@@ -49,8 +49,11 @@ public class TrackingComponent {
 
                     if (isAlive) update();
                     else {
-                        errorLevel = errorLevel.getNextLevel(errorLevel.ordinal());
                         switch (errorLevel) {
+                            case NO:
+                                alert(app.getName()+" : First check fails"
+                                        ,app.getPath() + "\t" + app.getLastSuccessCheck()
+                                        ,errorLevel.getRecipients());break;
                             case TRACE:
                                 alert(app.getName()+" : TRACE("+errorLevel.ordinal() * Integer.parseInt(app.getCheckInterval()) +") Minutes"
                                         ,app.getPath() + "\t" + app.getLastSuccessCheck()
@@ -72,6 +75,7 @@ public class TrackingComponent {
                                         ,app.getPath() + "\t" + app.getLastSuccessCheck()
                                         , errorLevel.getRecipients()); break;
                         }
+                        errorLevel = errorLevel.getNextLevel(errorLevel.ordinal());
                     }
                 } catch (ClassNotFoundException | NoSuchMethodException |  IllegalAccessException | InvocationTargetException e) {
                     logger.error(e.getMessage());
@@ -81,7 +85,7 @@ public class TrackingComponent {
     }
 
 
-    public void update() {
+    private void update() {
         app.setLastSuccessCheck(Timestamp.valueOf(LocalDateTime.now()));
         app.setErrorLevel(ErrorLevels.NO.toString());
         session.beginTransaction();
@@ -89,7 +93,7 @@ public class TrackingComponent {
         session.flush();
         session.getTransaction().commit();
     }
-    public void alert(String msgSubject, String msgBody, InternetAddress[] recipients) {
+    private void alert(String msgSubject, String msgBody, InternetAddress[] recipients) {
         app.setErrorLevel(errorLevel.toString());
         session.beginTransaction();
         session.save(app);

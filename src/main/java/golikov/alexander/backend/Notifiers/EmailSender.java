@@ -7,9 +7,9 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 public class EmailSender {
-    static Properties mailServerProperties;
-    static Session getMailSession;
-    static MimeMessage mimeMessage;
+    private static Properties mailServerProperties;
+    private static Session getMailSession;
+    private static MimeMessage mimeMessage;
     private InternetAddress[] recipients;
     private String msgSubject;
     private String msgBody;
@@ -33,6 +33,7 @@ public class EmailSender {
             getMailSession = Session.getDefaultInstance(mailServerProperties,null);
             mimeMessage = new MimeMessage(getMailSession);
             mimeMessage.addRecipients(Message.RecipientType.TO, recipients);
+//            mimeMessage.addRecipient(Message.RecipientType.TO,new InternetAddress("alex2@medline.spb.ru"));
             mimeMessage.setSubject("***HeartBeat*** " + msgSubject);
             mimeMessage.setContent(msgBody ,"text/html");
             Transport transport = getMailSession.getTransport("smtp");
