@@ -6,6 +6,16 @@ import javax.mail.internet.InternetAddress;
 public enum ErrorLevels {
     NO {
         public InternetAddress[] getRecipients () {
+            InternetAddress[] recipients;
+            {
+                try {
+                    recipients = new InternetAddress[]{
+                            new InternetAddress("it@medline.spb.ru")};
+                    return  recipients;
+                } catch (AddressException e) {
+                    e.printStackTrace();
+                }
+            }
             return null;
         }
     },

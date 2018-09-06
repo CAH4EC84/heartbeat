@@ -25,7 +25,7 @@ public class TrackingComponent {
         this.app = app;
     }
 
-    private void check() {
+    void check() {
         Boolean isAlive;
         //Время проверки =  последняя УСПЕШНАЯ проверка + интервал заданный для отслеживаемого компонента умноженное на порядок ошибки
         errorLevel = ErrorLevels.valueOf(app.getErrorLevel());
