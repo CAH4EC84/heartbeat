@@ -32,8 +32,8 @@ public class EmailSender {
         try {
             getMailSession = Session.getDefaultInstance(mailServerProperties,null);
             mimeMessage = new MimeMessage(getMailSession);
-//            mimeMessage.addRecipients(Message.RecipientType.TO, recipients);
-            mimeMessage.addRecipient(Message.RecipientType.TO,new InternetAddress("alex2@medline.spb.ru"));
+            mimeMessage.addRecipients(Message.RecipientType.TO, recipients);
+//            mimeMessage.addRecipient(Message.RecipientType.TO,new InternetAddress("alex2@medline.spb.ru"));
             mimeMessage.setSubject("***HeartBeat*** " + msgSubject);
             mimeMessage.setContent(msgBody ,"text/html");
             Transport transport = getMailSession.getTransport("smtp");
