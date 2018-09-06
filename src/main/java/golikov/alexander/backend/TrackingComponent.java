@@ -75,7 +75,7 @@ public class TrackingComponent {
                                         ,app.getPath() + "\t" + app.getLastSuccessCheck()
                                         , errorLevel.getRecipients()); break;
                         }
-                        errorLevel = errorLevel.getNextLevel(errorLevel.ordinal());
+                        app.setErrorLevel(errorLevel.getNextLevel(errorLevel.ordinal()).toString());
                     }
                 } catch (ClassNotFoundException | NoSuchMethodException |  IllegalAccessException | InvocationTargetException e) {
                     logger.error(e.getMessage());
